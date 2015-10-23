@@ -8,11 +8,12 @@
 
 task main()
 {
-	motor[LeftDriveMotor] = vexRT[Ch3];
-	motor[RightDriveMotor] = vexRT[Ch2];
 
 	while (1)
 	{
+		motor[LeftDriveMotor] = vexRT[Ch3];
+		motor[RightDriveMotor] = vexRT[Ch2];
+
 		if (vexRT[Btn5D] == 1)
 		{
 			motor[LiftMotor] = 50;
