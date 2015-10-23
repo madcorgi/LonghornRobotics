@@ -71,12 +71,12 @@ task main()
 
 		if (vexRT[Btn5U] == 1)
 		{
-			motor[LiftMotor] = -liftspeed; // made motor speed adjustable here
+			motor[LiftMotor] = liftspeed; // made motor speed adjustable here
 			//Slowest properly working speed is 40
 		}
 		else if (vexRT[Btn5D] == 1)
 		{
-			motor[LiftMotor] = liftspeed; // did the same here
+			motor[LiftMotor] = -liftspeed; // did the same here
 		}
 		else // If the motor isn't moving...
     {
@@ -122,11 +122,15 @@ task main()
 
 		if (vexRT[Btn8U] == 1)
 		{
-			motor[CargoBinMotor] = liftspeed;
+			motor[CargoBinMotor] = minliftspeed;
+			wait1Msec(200);
+			motor[CargoBinMotor] = 0;
 		}
 		else if (vexRT[Btn8D] == 1)
 		{
-			motor[CargoBinMotor] = -liftspeed;
+			motor[CargoBinMotor] = -minliftspeed;
+			wait1Msec(200);
+			motor[CargoBinMotor] = 0;
 		}
 
 		//SERVO CONTROLS
