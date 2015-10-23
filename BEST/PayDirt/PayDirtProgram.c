@@ -36,10 +36,27 @@ void moveServo(int servoId, bool moveClockwise)
 
 bool doubTapCheck(TVexJoysticks button) // Checks to see if a button has been double tapped
 {
-				wait1Msec(150);
-				bool check1 = (vexRT[button] == 0);
-				wait1Msec(150);
-				bool check2 = (vexRT[button] == 1);
+				bool check1 = false;
+				bool check2 = false;
+				for (int i = 1; i < 250; i++) // Loops to check a lot of times so whenever the second button is pressed it is registered
+				{
+					if (vexRT[button] == 0)
+					{
+						check1 = true;
+						break;
+					}
+					wait1Msec(2);
+				}
+
+				for (int i = 1; i < 250; i++) // Loops to check a lot of times so whenever the second button is pressed it is registered
+				{
+					if (vexRT[button] == 1)
+					{
+						check2 = true;
+						break;
+					}
+					wait1Msec(2);
+				}
 				return (check1 && check2);
 }
 
@@ -151,10 +168,9 @@ task main()
     {
     	 if (vexRT[Btn7U] == 1)
 			{
-				if (doubTapCheck(Btn7U))
+				if (doubTapCheck(Btn7U))  //This can also act as a 500ms delay to stop the circuit from frying
 				{
 				liftspeed = maxliftspeed; // Jumps the lift speed up to the maximum
-				wait1Msec(100);
 				}
 				else
 				{
@@ -163,20 +179,15 @@ task main()
 					{
 						liftspeed = maxliftspeed; // So the robot's arm never becomes way too fast
 					}
-					else // No need to delay if it's at the maximum speed, It wont' accelerate too much
-					{
-						wait1Msec(200);//To make sure it doesn't rapidly increase when the button is pressed
-					}
 				}
 					//You can only adjust the motor speed while it's not moving, don't want to break something!
-					wait1Msec(100);//Even if it's at the max speed, I don't want somebody holding down the button and causing it to loop too fast and fry itself
+
 			}
 			else if (vexRT[Btn7D] == 1)
 			{
-				if (doubTapCheck(Btn7D))
+				if (doubTapCheck(Btn7D)) //This can also act as a 500ms delay to stop the circuit from frying
 				{
 					liftspeed = minliftspeed; // Jumps the lift speed down to the minimum
-					wait1Msec(100);
 				}
 				else
 				{
@@ -186,12 +197,8 @@ task main()
 					{
 						liftspeed = minliftspeed; // So the robot's arm never becomes too slow to be operational... or even go negative!
 					}
-					else // No need to delay as much if it's at the minimum speed and not changing
-					{
-						wait1Msec(200);//To make sure it doens't rapidly decrease when the button is pressed
-					}
 				}
-				wait1Msec(100);//Even if it's at the max speed, I don't want somebody holding down the button and causing it too loop to fast and fry itself
+
 			}
 			/*else if (vexRT[Btn7L] == 1)
 			{
