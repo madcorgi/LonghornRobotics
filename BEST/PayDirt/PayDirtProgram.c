@@ -31,6 +31,7 @@ void moveServo(int servoId, bool moveClockwise)
 }
 
 //EDITABLE VARIABLES
+bool slowDriveSpeed = false;
 int liftspeed = 50; // Changes the initial speed of the lift
 int minliftspeed = 40; // The minimum speed of the lift (Too much under 40 and it won't lift at all. I suggest you keep it there
 int maxliftspeed = 100; // The maximum speed of the lift (I'm not sure if it even works over 100. Keep this at at least 100)
@@ -40,22 +41,51 @@ task main()
 
 	while (true) // Why have 1==1 instead of just having true... sheesh
 	{
+		if (vexRT[Btn6U] == 1)
+		{
+			slowDriveSpeed = false;
+		}
+		else if (vexRT[Btn6D] == 1)
+		{
+			slowDriveSpeed = true;
+		}
+
 		//STEERING METHODS
 		//To change the steering controls, uncomment the second two lines of ONE of the following blocks (remove the '//')
 		//Make sure the other blocks are commented out
 
-		//Original Steering Method (Katamari Damacy)
-		//motor[LeftDriveMotor] = vexRT[Ch3];
-		//motor[RightDriveMotor] = vexRT[Ch2];
+		if (slowDriveSpeed == true)
+		{
+			//Original Steering Method (Katamari Damacy)
+			//motor[LeftDriveMotor] = vexRT[Ch3] / 2;
+			//motor[RightDriveMotor] = vexRT[Ch2] / 2;
 
-		//Alternate Steering Method: Left Joystick ( MarioKart)
-		motor[LeftDriveMotor] = vexRT[Ch2] + vexRT[Ch4];
-		motor[RightDriveMotor] = vexRT[Ch3] -  vexRT[Ch4];
+			//Alternate Steering Method: Left Joystick ( MarioKart)
+			motor[LeftDriveMotor] = (vexRT[Ch2] + vexRT[Ch4]) / 2;
+			motor[RightDriveMotor] = (vexRT[Ch3] -  vexRT[Ch4]) / 2;
 
-		//Alternate Steering Method: Right Joystick ( MarioKart)
-		//motor[LeftDriveMotor] = vexRT[Ch2] + vexRT[Ch1];
-		//motor[RightDriveMotor] = vexRT[Ch2] -  vexRT[Ch1];
+			//Alternate Steering Method: Right Joystick ( MarioKart)
+			//motor[LeftDriveMotor] = (vexRT[Ch2] + vexRT[Ch1]) / 2;
+			//motor[RightDriveMotor] = (vexRT[Ch2] -  vexRT[Ch1]) / 2;
 
+
+		}
+		else
+		{
+			//Original Steering Method (Katamari Damacy)
+			//motor[LeftDriveMotor] = vexRT[Ch3];
+			//motor[RightDriveMotor] = vexRT[Ch2];
+
+			//Alternate Steering Method: Left Joystick ( MarioKart)
+			motor[LeftDriveMotor] = vexRT[Ch2] + vexRT[Ch4];
+			motor[RightDriveMotor] = vexRT[Ch3] -  vexRT[Ch4];
+
+			//Alternate Steering Method: Right Joystick ( MarioKart)
+			//motor[LeftDriveMotor] = vexRT[Ch2] + vexRT[Ch1];
+			//motor[RightDriveMotor] = vexRT[Ch2] -  vexRT[Ch1];
+
+
+		}
 		//wait1Msec(100);
 
 		//LIFT MOTOR CONTROLS
